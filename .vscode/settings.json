@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "unity-automated-build-system-example-project.sln"
+    "dotnet.defaultSolution": "unity-cross-platform-ci.sln"
 }

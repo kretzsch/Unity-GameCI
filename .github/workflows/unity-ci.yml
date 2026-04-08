@@ -1,4 +1,4 @@
-name: Unity CI
+name: Unity Windows CI
 
 on:
   push:
@@ -8,40 +8,36 @@ on:
 
 jobs:
   build:
-    name: Build Unity Project
+    name: Build Standalone Windows
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        targetPlatform:
-          - StandaloneWindows64
-          - WebGL
-
     steps:
-      # 1. Checkout repo
+      # 1. Checkout repository
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          lfs: true
 
-      # 2. Cache Library folder (huge speed boost)
+      # 2. Cache Library folder (speed up repeated builds)
       - name: Cache Library
         uses: actions/cache@v4
         with:
           path: Library
-          key: Library-${{ matrix.targetPlatform }}
+          key: Library-Windows
           restore-keys: |
             Library-
 
-      # 3. Build using GameCI
+      # 3. Build using GameCI (auto-detects Unity version)
       - name: Build project
-        uses: game-ci/unity-builder@v3
+        uses: game-ci/unity-builder@v4
+        with:
+          targetPlatform: StandaloneWindows64
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-        with:
-          targetPlatform: ${{ matrix.targetPlatform }}
 
       # 4. Upload build artifacts
-      - name: Upload build
+      - name: Upload Build
         uses: actions/upload-artifact@v4
         with:
-          name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          name: Build-Windows
+          path: build/StandaloneWindows64
