@@ -24,7 +24,7 @@ jobs:
 
       # 2. Cache Library folder (huge speed boost)
       - name: Cache Library
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
@@ -41,7 +41,7 @@ jobs:
 
       # 4. Upload build artifacts
       - name: Upload build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Build-${{ matrix.targetPlatform }}
           path: build/${{ matrix.targetPlatform }}
